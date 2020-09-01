@@ -53,6 +53,7 @@ class File_specs():
         elif self.extention in arr_instaladores:
             dir_name = sys.argv[1]+"/instaladores"
         else:
+            self.folder_thing(sys.argv[1]+"/outros")
             dir_name = sys.argv[1]+"/outros/"+self.extention.replace(".","")
         
         return self.folder_thing(dir_name)
@@ -67,10 +68,15 @@ class Handler(FileSystemEventHandler):
             list_dir = []
             for path in list_dir_raw:
                 list_dir.append(sys.argv[1]+"/"+path)
-            if os.path.dirname(src_path) in list_dir :
+            
+            src_dirname = os.path.dirname(src_path)
+            rest = src_dirname.replace(sys.argv[1]," ")
+            if rest != " ":
                 pass
+                # print(f"nao muda!")
             # if not, continue the process of rearrange the files
             else:
+                # print(f"muda!")
                 base = os.path.basename(src_path)
                 file_specs = File_specs(os.path.splitext(base))
                 dir_name = file_specs.check_dir()
